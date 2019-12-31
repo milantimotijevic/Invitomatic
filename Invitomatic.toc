@@ -1,0 +1,5 @@
+## Interface: 11303
+## Title : Invitomatic
+## Notes: Automates invitations by parsing guild chat
+## Author: Thorniel
+core.lua
