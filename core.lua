@@ -2,10 +2,12 @@
 local roster = {};
 local location = nil;
 local minLevel = nil;
-local roles = false;
-local heal = nil;
-local dps = nil;
-local tank = nil;
+local roles = {
+    enabled = false,
+    heal = 0,
+    dps = 0,
+    tank = 0
+};
 
 -- Util methods
 local splitStr = function (inputstr, sep)
@@ -40,12 +42,12 @@ local extractRoles = function(rolesArg)
     if rolesArg == nil then return end
 
     local rolesPayload = splitStr(rolesArg, "/");
-    heal = tonumber(rolesPayload[1]);
-    dps = tonumber(rolesPayload[2]);
-    tank = tonumber(rolesPayload[3]);
+    roles.heal = tonumber(rolesPayload[1]);
+    roles.dps = tonumber(rolesPayload[2]);
+    roles.tank = tonumber(rolesPayload[3]);
 
-    if heal ~= nil and dps ~= nil and tank ~= nil then
-        roles = true;
+    if roles.heal ~= nil and roles.dps ~= nil and roles.tank ~= nil then
+        roles.enabled = true;
     end
 end
 
@@ -53,10 +55,10 @@ end
 local reset = function()
     location = nil;
     minLevel = nil;
-    roles = false;
-    heal = nil;
-    dps = nil;
-    tank = nil;
+    roles.enabled = false;
+    roles.heal = 0;
+    roles.dps = 0;
+    roles.tank = 0;
 end
 
 -- Declare frame
@@ -95,7 +97,8 @@ SlashCmdList["INVITOMATIC"] = function(inp)
 	f:RegisterEvent("CHAT_MSG_WHISPER");
     --f:RegisterEvent("CHAT_MSG_GUILD");
     f:SetScript("OnEvent", function(self, event, msg, author, language, lineId, senderGUID)
-		local msgLower = string.lower(msg);
+        local msgLower = string.lower(msg);
+        print(splitStr(msgLower, " ")[2]);
 		if (msgLower == "inv" or msgLower == "invite") then
             -- Validate player level
 			if minLvl then
@@ -116,8 +119,8 @@ SlashCmdList["INVITOMATIC"] = function(inp)
     local minLvlAffix = "";
     local invAffix = "Type inv for auto invite";
 
-    if roles then
-        rolesAffix = "Need " .. heal .. " heal, " .. dps .. " dps and " .. tank .. " tank. ";
+    if roles.enabled then
+        rolesAffix = "Need " .. roles.heal .. " heal, " .. roles.dps .. " dps and " .. roles.tank .. " tank. ";
         invAffix = "Type inv heal/dps/tank (PICK ONE) for auto invite";
     end
 
