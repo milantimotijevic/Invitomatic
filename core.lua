@@ -93,11 +93,11 @@ SlashCmdList["INVITOMATIC"] = function(inp)
 
     if payload[1] == nil then
 		if location ~= nil then
-			f:UnregisterEvent("CHAT_MSG_WHISPER");
-            --f:UnregisterEvent("CHAT_MSG_GUILD");
+			--f:UnregisterEvent("CHAT_MSG_WHISPER");
+            f:UnregisterEvent("CHAT_MSG_GUILD");
             f:SetScript("OnEvent", nil);
-            print("INVITOMATIC: disabled auto invites for " .. location);
-            --SendChatMessage("INVITOMATIC: disabled auto invites for " .. location, "GUILD");
+            --print("INVITOMATIC: disabled auto invites for " .. location);
+            SendChatMessage("INVITOMATIC: disabled auto invites for " .. location, "GUILD");
             reset();
         end
         do return end
@@ -116,8 +116,8 @@ SlashCmdList["INVITOMATIC"] = function(inp)
 
     extractRoles(payload[3]);
 
-	f:RegisterEvent("CHAT_MSG_WHISPER");
-    --f:RegisterEvent("CHAT_MSG_GUILD");
+	--f:RegisterEvent("CHAT_MSG_WHISPER");
+    f:RegisterEvent("CHAT_MSG_GUILD");
     f:SetScript("OnEvent", function(self, event, msg, author, language, lineId, senderGUID)
         local msgLower = string.lower(msg);
         local splitMsgLower = splitStr(msgLower, " ");
@@ -174,6 +174,6 @@ SlashCmdList["INVITOMATIC"] = function(inp)
     if minLvl then
         minLvlAffix = "Min level " .. minLvl .. ". ";
     end
-    print("INVITOMATIC: LFM for " .. location .. ". " .. rolesAffix .. minLvlAffix .. invAffix);
-    --SendChatMessage("INVITOMATIC: LFM for " .. location .. affix .. "Type inv for auto invite", "GUILD");
+    --print("INVITOMATIC: LFM for " .. location .. ". " .. rolesAffix .. minLvlAffix .. invAffix);
+    SendChatMessage("INVITOMATIC: LFM for " .. location .. ". " .. rolesAffix .. minLvlAffix .. invAffix, "GUILD");
 end
