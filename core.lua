@@ -128,6 +128,7 @@ SlashCmdList["INVITOMATIC"] = function(inp)
 				updateRoster();
                 local playerLevel = roster[senderGUID].level;
                 if (playerLevel == nil or playerLevel < minLvl) then
+                    SendChatMessage("INVITOMATIC: insufficient level (req " .. minLvl .. ")", "WHISPER", GetDefaultLanguage(unit), senderGUID);
                     do return end
                 end
             end
