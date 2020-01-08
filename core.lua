@@ -1,14 +1,14 @@
 -- Declare constants
 local classRoles = {
-    warrior = {"tank", "dps"},
-    mage = {"dps"},
-    shaman = {"dps, heal"},
-    paladin = {"dps", "heal", "tank"},
-    druid = {"dps", "heal", "tank"},
-    priest = {"dps", "heal"},
-    hunter = {"dps"},
-    warlock = {"dps"},
-    rogue = {"dps"}
+    Warrior = {"tank", "dps"},
+    Mage = {"dps"},
+    Shaman = {"dps, heal"},
+    Paladin = {"dps", "heal", "tank"},
+    Druid = {"dps", "heal", "tank"},
+    Priest = {"dps", "heal"},
+    Hunter = {"dps"},
+    Warlock = {"dps"},
+    Rogue = {"dps"}
 };
 
 -- Declare addon-scope variables
@@ -37,7 +37,7 @@ local updateRoster = function()
     for i = 1, numMembers, 1 do
         local nameWithServer, rank, rankIndex, level, class = GetGuildRosterInfo(i);
         local name = splitStr(nameWithServer, "-")[1];
-        roster[name] = { level = level, class = class };
+        roster[name] = { level = level, characterClass = class };
     end
 end
 
@@ -65,7 +65,7 @@ local extractRoles = function(rolesArg)
 end
 
 local function tableHasValue (tab, val)
-    for index, value in ipairs(tab) do
+    for key, value in pairs(tab) do
         if value == val then
             return true
         end
@@ -141,8 +141,9 @@ SlashCmdList["INVITOMATIC"] = function(inp)
                     do return end
                 end
 
-                local playerClass = roster[senderGUID].class;
-                if tableHasValue(classRoles[playerClass]) == false then
+                local playerClass = roster[senderGUID].characterClass;
+
+                if tableHasValue(classRoles[playerClass], appliedRole) == false then
                     SendChatMessage("INVITOMATIC: class-role mismatch", "WHISPER", GetDefaultLanguage(unit), senderGUID);
                     do return end
                 end
