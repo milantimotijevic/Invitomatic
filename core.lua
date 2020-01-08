@@ -164,11 +164,11 @@ SlashCmdList["INVITOMATIC"] = function(inp)
     local affix = ". ";
     local rolesAffix = "";
     local minLvlAffix = "";
-    local invAffix = "Type inv for auto invite";
+    local invAffix = "Type inv in guild chat for auto invite";
 
     if roles.enabled then
         rolesAffix = "Need " .. roles.heal .. " heal, " .. roles.dps .. " dps and " .. roles.tank .. " tank. ";
-        invAffix = "Type inv heal/dps/tank (PICK ONE) for auto invite";
+        invAffix = "Type inv heal/dps/tank (PICK ONE) in guild chat for auto invite";
     end
 
     if minLvl then
